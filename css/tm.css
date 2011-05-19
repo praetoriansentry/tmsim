@@ -1,0 +1,20 @@
+#tickerTape {
+    height:50px;
+    position:relative;
+}
+#tickerTape div {
+    height:40px;
+    width:39px;
+    float:left;
+    border:1px solid black;
+    border-right:0px;
+    text-align:center;
+}
+#tickerTape div.firstCell {
+}
+#tickerTape div.lastCell {
+    border-right:1px solid black;
+}
+.tickerTapeContain {
+    overflow:hidden;
+}
