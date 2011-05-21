@@ -1,6 +1,9 @@
 #tickerTape {
     height:50px;
     position:relative;
+    white-space:nowrap;
+    width:1200px;
+    margin-left:-40px;
 }
 #tickerTape div {
     height:40px;
@@ -17,4 +20,7 @@
 }
 .tickerTapeContain {
     overflow:hidden;
+}
+#tmInstructions {
+    width:100px;
 }

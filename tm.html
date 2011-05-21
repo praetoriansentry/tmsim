@@ -1,30 +1,67 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
-<title>Touring Maching Simulator</title>
+<title>Turing Maching Simulator</title>
 <link rel="stylesheet" href="css/blueprint/screen.css" type="text/css" media="screen, projection">
 <link rel="stylesheet" href="css/blueprint/print.css" type="text/css" media="print"> 
 <!--[if lt IE 8]>
 <link rel="stylesheet" href="css/blueprint/ie.css" type="text/css" media="screen, projection">
 <![endif]-->
-
+<link rel="stylesheet" href="css/tm.css" type="text/css" media="screen, projection"> 
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
 </head>
 <body>
 <div class="container">
     <div class="span-24">
         The header
     </div>
-    <div class="span-4">
-        The first column
+    <div class="span-24 tickerTapeContain">
+        <div id="tickerTape" class="clearfix">
+            <div class="tapeCell firstCell"> 0 </div>
+            <div class="tapeCell"> 1 </div>
+            <div class="tapeCell"> 2 </div>
+            <div class="tapeCell"> 3 </div>
+            <div class="tapeCell"> 4 </div>
+            <div class="tapeCell"> 5 </div>
+            <div class="tapeCell"> 6 </div>
+            <div class="tapeCell"> 7 </div>
+            <div class="tapeCell"> 8 </div>
+            <div class="tapeCell"> 9 </div>
+            <div class="tapeCell"> 10 </div>
+            <div class="tapeCell"> 11 </div>
+            <div class="tapeCell"> 12 </div>
+            <div class="tapeCell"> 13 </div>
+            <div class="tapeCell"> 14 </div>
+            <div class="tapeCell"> 15 </div>
+            <div class="tapeCell"> 16 </div>
+            <div class="tapeCell"> 17 </div>
+            <div class="tapeCell"> 18 </div>
+            <div class="tapeCell"> 19 </div>
+            <div class="tapeCell"> 20 </div>
+            <div class="tapeCell"> 21 </div>
+            <div class="tapeCell"> 22 </div>
+            <div class="tapeCell"> 23 </div>
+            <div class="tapeCell"> 24 </div>
+            <div class="tapeCell"> 25 </div>
+            <div class="tapeCell lastCell"> 22 </div>
+        </div>
     </div>
-    <div class="span-16">
-        The center column
-    </div>
-    <div class="span-4 last">
-        The last column
+    <div class="span-1 append-11 prepend-11 last">
+        <div id="tmHead">
+            head
+        </div>
     </div>
     <div class="span-24">
-        The footer
+        <div class="span-8">
+            <label for="tmInstructions">Instructions<label>
+            <br>
+            <textarea id="tmInstructions"></textarea>
+        </div>
+        <div class="span-16 last">
+            <button>Start</button>
+            <button>Stop</button>
+            <button>Reset</button>
+        </div>
     </div>
 </div>
 </body>
