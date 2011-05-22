@@ -1,4 +1,4 @@
-var tm,$,document;
+var tm,$,document,window;
 if(!tm){
     tm = {};
 }
@@ -15,6 +15,8 @@ if(!tm){
     var inMotion = false;// flag to prevent running animations at the same time
     m.transitionSpeed = 1000;
     m.state = 'N';
+    m.isRunning = false;
+    m.runHandle = null;
     m.actionMap = null;
     /**
      * Initial hook into everything
@@ -30,8 +32,8 @@ if(!tm){
      */
     m.attachListeners = function(){
         $('#loadSymbols').click(m.loadSymbols);
-        $('#goBackward').click(m.moveRight);
-        $('#goForward').click(m.moveLeft);
+        $('#goBackward').click(m.moveLeft);
+        $('#goForward').click(m.moveRight);
         $('#curState').click(m.editState);
         $('#loadInstructions').click(m.loadInstructions);
         $('#startButton').click(m.startRunning);
@@ -86,7 +88,7 @@ if(!tm){
      * This moves the head to the next element.  It also animates the
      * transtition
      */
-    m.moveLeft= function(){
+    m.moveRight = function(){
         if(inMotion){
             return;
         }
@@ -100,7 +102,7 @@ if(!tm){
      * This moves the head to the previous element.  It also animates the
      * transtition
      */
-    m.moveRight = function(){
+    m.moveLeft = function(){
         if(inMotion){
             return;
         }
@@ -110,6 +112,13 @@ if(!tm){
         m.tape.setHead(newHead);
         $('#tickerTape').animate({'margin-left':'0px'},m.transitionSpeed,m.resetDivs);
     };
+    m.stayStill = function(){
+        if(inMotion){
+            return;
+        }
+        inMotion = true;
+        window.setTimeout(m.resetDivs,m.transitionSpeed);
+    };
     /**
      * Sets the divs back to their default position and redraws.
      */
@@ -117,6 +126,9 @@ if(!tm){
         m.draw();
         $('#tickerTape').css('margin-left','-40px');
         inMotion = false;
+        if(m.runHandle){
+            $.publish('/animation/complete');
+        }
     };
     /**
      * This function allows for the user to manually edit the state of the
@@ -156,6 +168,7 @@ if(!tm){
                 }
                 return true;
             });
+        // todo make this more restrictive
         var re = /\{(.),(.)\}->\{(.),(.),(.)\}/;
         var actions = instructs.map(function(ele){
             // Remove spaces
@@ -172,7 +185,7 @@ if(!tm){
         var i,action,key;
         for(i = 0;i<len;i++){ // reindex the actions;
             action = actions[i];
-            key = action.getCurrentState() + '-' + action.getCurrentSymbol();
+            key = m.makeKey(action.getCurrentState(),action.getCurrentSymbol());
             actionMap[key] = action;
         }
         m.actionMap = actionMap;
@@ -185,6 +198,93 @@ if(!tm){
         m.state = 'N';
         $('#curState').text('N');
         m.draw();
+    };
+    /**
+     * Send the turing machine off running
+     */
+    m.startRunning = function(){
+        if(!m.checkIfReady()){
+            alert('Turing Machine Not Started');
+            return;
+        }
+        m.runHandle = $.subscribe('/animation/complete',m.doStep);
+        m.doStep();
+    };
+    /**
+     * Check to see if the turing machine is ready to run
+     */
+    m.checkIfReady = function(){
+        if(m.isRunning){
+            return false;
+        }
+        var actionsLoaded = false;
+        var action;
+        for( action in m.actionMap ){
+            if(m.actionMap.hasOwnProperty(action)){
+                actionsLoaded = true;
+                break;
+            }
+        }
+        if(!actionsLoaded){
+            return false;
+        }
+        return true;
+    };
+    /**
+     * Stop the turing machine
+     */
+    m.stopRunning = function(){
+        m.isRunning = false;
+        $.unsubscribe(m.runHandle);
+        delete m.runHandle;
+    };
+    /**
+     * Does one step on the machine
+     */
+    m.doStep = function(){
+        var action = m.getAction();
+        m.performAction(action);
+    };
+    /**
+     * Gets an action corresponding to the current state and symbol
+     * @return {object} the matched action
+     */
+    m.getAction = function(){
+        var currentState = m.state;
+        var currentSymbol = m.tape.getHead().getSymbol();
+        var key = m.makeKey(currentState, currentSymbol);
+        var action = m.actionMap[key];
+        if(!action){
+            alert('Action ' + key + ' not found!');
+            throw 'Action not found';
+        }
+        return action;
+    };
+    /**
+     * Applies the action to the tape and state
+     */
+    m.performAction = function(action){
+        m.state = action.newState;
+        $('#curState').text(m.state);
+        m.tape.head.setSymbol(action.newSymbol);
+        m.draw();
+        if(action.movement === tm.Action.MOVE_LEFT){
+            m.moveLeft();
+        }else if(action.movement === tm.Action.MOVE_RIGHT){
+            m.moveRight();
+        }else if(action.movement === tm.Action.STAY_STILL){
+            m.stayStill();
+        }else{
+            throw 'Invalid Movement Option';
+        }
+    };
+    /**
+     * @param {string} state 
+     * @param {string} symbol
+     * @return {string} the key for this configuration
+     */
+    m.makeKey = function(state, symbol){
+        return state + '-' + symbol;
     };
 }());
 /**
