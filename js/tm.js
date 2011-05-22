@@ -6,6 +6,7 @@ if(!tm){
 (function(){
     tm.manager = {};
     var m = tm.manager;
+    m.transitionSpeed = 1000;
     m.setup = function(){
         m.tape = new tm.tape();
         m.numCells = m.countCells();
@@ -34,6 +35,22 @@ if(!tm){
             pre = pre.prev();
         }
     };
+    m.moveLeft= function(){
+        var head = m.tape.getHead();
+        var newHead = head.getNext();
+        m.tape.setHead(newHead);
+        $('#tickerTape').animate({'margin-left':'-80px'},m.transitionSpeed,m.resetDivs);
+    };
+    m.moveRight = function(){
+        var head = m.tape.getHead();
+        var newHead = head.getPrevious();
+        m.tape.setHead(newHead);
+        $('#tickerTape').animate({'margin-left':'0px'},m.transitionSpeed,m.resetDivs);
+    };
+    m.resetDivs = function(){
+        m.draw();
+        $('#tickerTape').css('margin-left','-40px');
+    };
 }());
 (function(){
     function tape(){
@@ -44,6 +61,9 @@ if(!tm){
     t.getHead = function(){
         return this.head;
     };
+    t.setHead = function(cell){
+        this.head = cell;
+    }
 
 }());
 
@@ -53,6 +73,7 @@ tm.BLANK_SYMBOL = '_';
     function cell(idx){
         this.index = idx;
         this.symbol = tm.BLANK_SYMBOL;
+        this.symbol = idx; //for testing purposes
     };
 
     tm.cell = cell;
