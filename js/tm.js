@@ -20,6 +20,28 @@ if(!tm){
         m.tape = new tm.tape();
         m.numCells = m.countCells();
         m.draw();
+        m.attachListeners();
+    };
+    /**
+     * Attach listeners to all of the buttons
+     */
+    m.attachListeners = function(){
+        $('#loadSymbols').click(m.loadSymbols);
+    };
+    /**
+     * Handler for when the user want to load symbols onto the tape
+     * @param {event} evt
+     */
+    m.loadSymbols = function(evt){
+        var symbols = $('#initialSymbols').val();
+        var len = symbols.length;
+        var head = m.tape.getHead();
+        for(var i = 0; i < len; i++){
+            console.log(symbols[i]);
+            head.setSymbol(symbols[i]);
+            head = head.getNext();
+        }
+        m.draw();
     };
     /**
      * @return {int} the number of cells on the tape
@@ -121,7 +143,7 @@ tm.BLANK_SYMBOL = '_';
     function cell(idx){
         this.index = idx;
         this.symbol = tm.BLANK_SYMBOL;
-        this.symbol = idx; //for testing purposes
+        //this.symbol = idx; //for testing purposes
     };
 
     tm.cell = cell;
