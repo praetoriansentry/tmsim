@@ -1,5 +1,4 @@
-"use strict"
-var tm;
+var tm,$;
 if(!tm){
     tm = {};
 }
@@ -10,6 +9,7 @@ if(!tm){
  * independent of that.
  */
 (function(){
+    "use strict";
     tm.manager = {};
     var m = tm.manager;
     var inMotion = false;// flag to prevent running animations at the same time
@@ -18,7 +18,7 @@ if(!tm){
      * Initial hook into everything
      */
     m.setup = function(){
-        m.tape = new tm.tape();
+        m.tape = new tm.Tape();
         m.numCells = m.countCells();
         m.draw();
         m.attachListeners();
@@ -33,13 +33,13 @@ if(!tm){
     };
     /**
      * Handler for when the user want to load symbols onto the tape
-     * @param {event} evt
      */
-    m.loadSymbols = function(evt){
+    m.loadSymbols = function(){
         var symbols = $('#initialSymbols').val();
         var len = symbols.length;
         var head = m.tape.getHead();
-        for(var i = 0; i < len; i++){
+        var i;
+        for(i = 0; i < len; i++){
             head.setSymbol(symbols[i]);
             head = head.getNext();
         }
@@ -116,14 +116,16 @@ if(!tm){
  * The tape class is really simple.  It holds a pointer to the head cell 
  */
 (function(){
+    "use strict";
     /**
      * Create a new tape.  This will create a tape with one cell at index 0
      */
-    function tape(){
-        this.head = new tm.cell(0);
-    };
-    tm.tape = tape;
-    var t = tape.prototype;
+    function Tape(){
+        this.head = new tm.Cell(0);
+    }
+
+    tm.Tape = Tape;
+    var t = Tape.prototype;
     /**
      * @return {object} the head cell
      */
@@ -135,7 +137,7 @@ if(!tm){
      */
     t.setHead = function(cell){
         this.head = cell;
-    }
+    };
 
 }());
 
@@ -147,19 +149,20 @@ tm.BLANK_SYMBOL = '_';
  * right now, but i think it will when i need to specify starting tapes
  */
 (function(){
+    "use strict";
     /**
      * Create a new cell with the blank symbol
      * @param {int} idx the index of the cell
      */
-    function cell(idx){
+    function Cell(idx){
         this.index = idx;
         this.symbol = tm.BLANK_SYMBOL;
         //this.symbol = idx; //for testing purposes
-    };
+    }
 
-    tm.cell = cell;
+    tm.Cell = Cell;
 
-    var c = cell.prototype;
+    var c = Cell.prototype;
     
     /**
      * Gets the next element in the list.  If it doesn't exist, we create it
@@ -167,7 +170,7 @@ tm.BLANK_SYMBOL = '_';
      */
     c.getNext = function(){
         if(!this.next){
-            this.next = new cell(this.index + 1);
+            this.next = new Cell(this.index + 1);
             this.next.setPrevious(this);
         }
         return this.next;
@@ -179,7 +182,7 @@ tm.BLANK_SYMBOL = '_';
      */
     c.getPrevious = function(){
         if(!this.previous){
-            this.previous = new cell(this.index - 1);
+            this.previous = new Cell(this.index - 1);
             this.previous.setNext(this);
         }
         return this.previous;
@@ -219,17 +222,18 @@ tm.BLANK_SYMBOL = '_';
  * decide how to act
  */
 (function(){
-    function action(currentState, currentSymbol, 
+    "use strict";
+    function Action(currentState, currentSymbol, 
             newState, newSymbol, movement){
         this.currentState = currentState;
         this.currentSymbol = currentSymbol;
         this.newState = newState;
         this.newSymbol = newSymbol;
         this.movement = movement;
-    };
-    action.MOVE_LEFT = 'L';
-    action.MOVE_RIGHT = 'R';
-    action.STAY_STILL = 'N';
-    var a = action.prototype;
-    tm.action = action;
+    }
+    Action.MOVE_LEFT = 'L';
+    Action.MOVE_RIGHT = 'R';
+    Action.STAY_STILL = 'N';
+    //var a = action.prototype;
+    tm.Action = Action;
 }());
