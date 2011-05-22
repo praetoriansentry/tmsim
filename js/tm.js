@@ -12,6 +12,7 @@ if(!tm){
 (function(){
     tm.manager = {};
     var m = tm.manager;
+    var inMotion = false;// flag to prevent running animations at the same time
     m.transitionSpeed = 1000;
     /**
      * Initial hook into everything
@@ -27,6 +28,8 @@ if(!tm){
      */
     m.attachListeners = function(){
         $('#loadSymbols').click(m.loadSymbols);
+        $('#goBackward').click(m.moveRight);
+        $('#goForward').click(m.moveLeft);
     };
     /**
      * Handler for when the user want to load symbols onto the tape
@@ -37,7 +40,6 @@ if(!tm){
         var len = symbols.length;
         var head = m.tape.getHead();
         for(var i = 0; i < len; i++){
-            console.log(symbols[i]);
             head.setSymbol(symbols[i]);
             head = head.getNext();
         }
@@ -78,6 +80,10 @@ if(!tm){
      * transtition
      */
     m.moveLeft= function(){
+        if(inMotion){
+            return;
+        }
+        inMotion = true;
         var head = m.tape.getHead();
         var newHead = head.getNext();
         m.tape.setHead(newHead);
@@ -88,6 +94,10 @@ if(!tm){
      * transtition
      */
     m.moveRight = function(){
+        if(inMotion){
+            return;
+        }
+        inMotion = true;
         var head = m.tape.getHead();
         var newHead = head.getPrevious();
         m.tape.setHead(newHead);
@@ -99,6 +109,7 @@ if(!tm){
     m.resetDivs = function(){
         m.draw();
         $('#tickerTape').css('margin-left','-40px');
+        inMotion = false;
     };
 }());
 /**
