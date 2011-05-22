@@ -9,6 +9,7 @@
 <![endif]-->
 <link rel="stylesheet" href="css/tm.css" type="text/css" media="screen, projection"> 
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
+<script type="text/javascript" src="js/tm.js"></script>
 </head>
 <body>
 <div class="container">
@@ -29,7 +30,7 @@
             <div class="tapeCell"> 9 </div>
             <div class="tapeCell"> 10 </div>
             <div class="tapeCell"> 11 </div>
-            <div class="tapeCell"> 12 </div>
+            <div class="tapeCell headCell"> 12 </div>
             <div class="tapeCell"> 13 </div>
             <div class="tapeCell"> 14 </div>
             <div class="tapeCell"> 15 </div>
@@ -42,8 +43,7 @@
             <div class="tapeCell"> 22 </div>
             <div class="tapeCell"> 23 </div>
             <div class="tapeCell"> 24 </div>
-            <div class="tapeCell"> 25 </div>
-            <div class="tapeCell lastCell"> 22 </div>
+            <div class="tapeCell lastCell"> 25 </div>
         </div>
     </div>
     <div class="span-1 append-11 prepend-11 last">
@@ -64,5 +64,10 @@
         </div>
     </div>
 </div>
+<script type="text/javascript">
+$(window).load(function(){
+    tm.manager.setup();
+});
+</script>
 </body>
 </html>

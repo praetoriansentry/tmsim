@@ -9,9 +9,30 @@ if(!tm){
     m.setup = function(){
         m.tape = new tm.tape();
         m.numCells = m.countCells();
+        m.draw();
     };
     m.countCells = function(){
         return $('#tickerTape div').length;
+    };
+    m.draw = function(){
+        var head = m.tape.getHead();
+        var divHead = $('.tapeCell.headCell');
+        divHead.text(head.symbol);
+        var fwd = divHead.next();
+        var fwdCell = head.getNext();
+        while( fwd.length > 0 ){
+            fwd.text(fwdCell.symbol);
+            fwdCell = fwdCell.getNext();
+            fwd = fwd.next();
+        }
+
+        var pre = divHead.prev();
+        var preCell = head.getPrevious();
+        while( pre.length > 0 ){
+            pre.text(preCell.symbol);
+            preCell = preCell.getPrevious();
+            pre = pre.prev();
+        }
     };
 }());
 (function(){
@@ -19,6 +40,11 @@ if(!tm){
         this.head = new tm.cell(0);
     };
     tm.tape = tape;
+    var t = tape.prototype;
+    t.getHead = function(){
+        return this.head;
+    };
+
 }());
 
 tm.BLANK_SYMBOL = '_';
