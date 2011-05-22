@@ -1,4 +1,4 @@
-var tm,$;
+var tm,$,document;
 if(!tm){
     tm = {};
 }
@@ -14,6 +14,7 @@ if(!tm){
     var m = tm.manager;
     var inMotion = false;// flag to prevent running animations at the same time
     m.transitionSpeed = 1000;
+    m.state = 'N';
     /**
      * Initial hook into everything
      */
@@ -30,6 +31,7 @@ if(!tm){
         $('#loadSymbols').click(m.loadSymbols);
         $('#goBackward').click(m.moveRight);
         $('#goForward').click(m.moveLeft);
+        $('#curState').click(m.editState);
     };
     /**
      * Handler for when the user want to load symbols onto the tape
@@ -110,6 +112,31 @@ if(!tm){
         m.draw();
         $('#tickerTape').css('margin-left','-40px');
         inMotion = false;
+    };
+    /**
+     * This function allows for the user to manually edit the state of the
+     * machine
+     */
+    m.editState = function(){
+        var input = $(document.createElement('input'));
+        input.attr('type','text');
+        input.val(m.state);
+        function saveState(){
+            // todo maybe check to see that the state is 1 character
+            var state = input.val();
+            m.state = state;
+            // take it out of the dom
+            input.remove();
+            $('#curState').text(state);
+        }
+        input.blur(saveState);
+        input.keypress(function(evt){
+            if(evt.which === 13){
+                saveState();
+            }
+        });
+        $('#curState').html(input);
+        input.focus();
     };
 }());
 /**
