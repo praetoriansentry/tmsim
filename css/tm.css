@@ -22,5 +22,13 @@
     overflow:hidden;
 }
 #tmInstructions {
-    width:100px;
+    width:100%;
+}
+#headHighlight {
+    width:39px;
+    height:40px;
+    border:1px solid red;
+    margin-top:-50px;
+    margin-left:440px;
+    position:relative;
 }
