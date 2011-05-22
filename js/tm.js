@@ -168,8 +168,7 @@ if(!tm){
                 }
                 return true;
             });
-        // todo make this more restrictive
-        var re = /\{(.),(.)\}->\{(.),(.),(.)\}/;
+        var re = /\{(.),(.)\}->\{(.),(.),([LRN])\}/;
         var actions = instructs.map(function(ele){
             // Remove spaces
             ele = ele.replace(" ","","g");
