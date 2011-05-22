@@ -34,6 +34,9 @@ if(!tm){
         $('#goForward').click(m.moveLeft);
         $('#curState').click(m.editState);
         $('#loadInstructions').click(m.loadInstructions);
+        $('#startButton').click(m.startRunning);
+        $('#stopButton').click(m.stopRunning);
+        $('#resetButton').click(m.reset);
     };
     /**
      * Handler for when the user want to load symbols onto the tape
@@ -173,6 +176,15 @@ if(!tm){
             actionMap[key] = action;
         }
         m.actionMap = actionMap;
+    };
+    /**
+     * This function is meant to just reset the turing machine tape
+     */
+    m.reset = function(){
+        m.tape = new tm.Tape();
+        m.state = 'N';
+        $('#curState').text('N');
+        m.draw();
     };
 }());
 /**
