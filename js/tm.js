@@ -15,6 +15,7 @@ if(!tm){
     var inMotion = false;// flag to prevent running animations at the same time
     m.transitionSpeed = 1000;
     m.state = 'N';
+    m.actionMap = null;
     /**
      * Initial hook into everything
      */
@@ -32,6 +33,7 @@ if(!tm){
         $('#goBackward').click(m.moveRight);
         $('#goForward').click(m.moveLeft);
         $('#curState').click(m.editState);
+        $('#loadInstructions').click(m.loadInstructions);
     };
     /**
      * Handler for when the user want to load symbols onto the tape
@@ -137,6 +139,40 @@ if(!tm){
         });
         $('#curState').html(input);
         input.focus();
+    };
+    /**
+     * Function reads the instructions and loads them into an objec for
+     * running
+     */
+    m.loadInstructions = function(){
+        var instructs = $('#tmInstructions')
+            .val().split('\n')
+            .filter(function(ele){
+                if($.trim(ele).length === 0){
+                    return false;
+                }
+                return true;
+            });
+        var re = /\{(.),(.)\}->\{(.),(.),(.)\}/;
+        var actions = instructs.map(function(ele){
+            // Remove spaces
+            ele = ele.replace(" ","","g");
+            if(!re.test(ele)){
+                throw "Rule: " + ele + " does not fit the grammar.";
+            }
+            var pieces = ele.match(re);
+            return new tm.Action(pieces[1],pieces[2],pieces[3],
+                pieces[4],pieces[5]);
+        });
+        var actionMap = {};
+        var len = actions.length;
+        var i,action,key;
+        for(i = 0;i<len;i++){ // reindex the actions;
+            action = actions[i];
+            key = action.getCurrentState() + '-' + action.getCurrentSymbol();
+            actionMap[key] = action;
+        }
+        m.actionMap = actionMap;
     };
 }());
 /**
@@ -261,6 +297,18 @@ tm.BLANK_SYMBOL = '_';
     Action.MOVE_LEFT = 'L';
     Action.MOVE_RIGHT = 'R';
     Action.STAY_STILL = 'N';
-    //var a = action.prototype;
+    var a = Action.prototype;
     tm.Action = Action;
+    /**
+     * @return {string} the current state
+     */
+    a.getCurrentState = function(){
+        return this.currentState;
+    };
+    /**
+     * @return {string} the current symbol 
+     */
+    a.getCurrentSymbol = function(){
+        return this.currentSymbol;
+    };
 }());
