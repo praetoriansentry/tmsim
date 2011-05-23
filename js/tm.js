@@ -205,10 +205,10 @@ if(!tm){
      */
     m.startRunning = function(){
         if(!m.checkIfReady()){
-            alert('Turing Machine Not Started');
             return;
         }
         m.runHandle = $.subscribe('/animation/complete',m.doStep);
+        tm.notify('Turing machine started');
         m.doStep();
     };
     /**
@@ -216,6 +216,11 @@ if(!tm){
      */
     m.checkIfReady = function(){
         if(m.isRunning){
+            tm.notify('Turing machine already running');
+            return false;
+        }
+        if(m.runHandle){
+            tm.notify('Turing machine already running');
             return false;
         }
         var actionsLoaded = false;
@@ -227,6 +232,7 @@ if(!tm){
             }
         }
         if(!actionsLoaded){
+            tm.notify('No instruction set loaded');
             return false;
         }
         return true;
@@ -236,13 +242,21 @@ if(!tm){
      */
     m.stopRunning = function(){
         m.isRunning = false;
-        $.unsubscribe(m.runHandle);
-        delete m.runHandle;
+        try{
+            $.unsubscribe(m.runHandle);
+            delete m.runHandle;
+        }catch(ex){
+        }
+        tm.notify('Turing machine stopped');
     };
     /**
      * Does one step on the machine
      */
     m.doStep = function(){
+        if(m.state === 'H'){
+            m.stopRunning();
+            return;
+        }
         var action = m.getAction();
         m.performAction(action);
     };
@@ -256,7 +270,8 @@ if(!tm){
         var key = m.makeKey(currentState, currentSymbol);
         var action = m.actionMap[key];
         if(!action){
-            alert('Action ' + key + ' not found!');
+            tm.notify('No instruction found for state: '+ currentState 
+                + ' and symbol: ' + currentSymbol);
             throw 'Action not found';
         }
         return action;
