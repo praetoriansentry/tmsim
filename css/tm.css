@@ -32,3 +32,19 @@
     margin-left:440px;
     position:relative;
 }
+.notification {
+    font-size:135%;
+    line-height:40px;
+    display:none;
+    font-weight:bold;
+    overflow: hidden;
+    width: 100%;
+    text-align: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #E5D27F;
+    height: 40px;
+    color: #000000;
+    opacity: .9;
+}

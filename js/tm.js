@@ -173,6 +173,7 @@ if(!tm){
             // Remove spaces
             ele = ele.replace(" ","","g");
             if(!re.test(ele)){
+                tm.notify("Rule: " + ele + " does not fit the grammar.");
                 throw "Rule: " + ele + " does not fit the grammar.";
             }
             var pieces = ele.match(re);
@@ -188,6 +189,7 @@ if(!tm){
             actionMap[key] = action;
         }
         m.actionMap = actionMap;
+        tm.notify('Instructions successfully loaded');
     };
     /**
      * This function is meant to just reset the turing machine tape
@@ -284,6 +286,28 @@ if(!tm){
      */
     m.makeKey = function(state, symbol){
         return state + '-' + symbol;
+    };
+}());
+/**
+ * The point of this code is just to control the messages that get show to the
+ * user.  Rather than using alerts, I would rather use this
+ */
+(function(){
+    tm.notify = function(msg,color){
+        var div = $(document.createElement('div'));
+        div.attr('class','notification');
+        if(color){
+            div.css('background-color',color);
+        }
+        div.text(msg);
+        div.bind('click', function() {
+            $(this).slideUp('fast',function(){
+                div.remove();
+            });
+        });
+        $(document.body).append(div);
+        div.slideDown("slow");
+        setTimeout(function() { div.slideUp('fast',function(){div.remove()}) }, 3000);
     };
 }());
 /**
