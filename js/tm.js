@@ -34,12 +34,26 @@ if(!tm){
         $('#loadSymbols').click(m.loadSymbols);
         $('#goBackward').click(m.moveLeft);
         $('#goForward').click(m.moveRight);
+        $('#goBackward').click(m.updateTransitionSpeed);
+        $('#goForward').click(m.updateTransitionSpeed);
         $('#curState').click(m.editState);
         $('#loadInstructions').click(m.loadInstructions);
         $('#startButton').click(m.startRunning);
+        $('#startButton').click(m.updateTransitionSpeed);
         $('#stopButton').click(m.stopRunning);
         $('#resetButton').click(m.reset);
         $('#showInstructions').click(m.toggleInstructions);
+    };
+    /**
+     * Small function to update the transtion speed.  This should be called
+     * before starting a new run.
+     */
+    m.updateTransitionSpeed = function(){
+        if($('#transpeed').val().match('^(0|[1-9][0-9]*)$')){
+            m.transitionSpeed = $('#transpeed').val();
+        }else{
+            m.transitionSpeed = 1000; // Default to 1000
+        }
     };
     /**
      * Handler for when the user want to load symbols onto the tape
@@ -58,7 +72,7 @@ if(!tm){
     /**
      * @return {int} the number of cells on the tape
      */
-    m.countCells = function(){
+    m.countCells = function(){ // Default to 1000
         return $('#tickerTape div').length;
     };
     /**
