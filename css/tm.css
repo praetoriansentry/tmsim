@@ -48,3 +48,18 @@
     color: #000000;
     opacity: .9;
 }
+#curState {
+    cursor:pointer;
+    float:left;
+    margin-left:10px;
+}
+label[for=curState] {
+    float:left;
+    display:block;
+}
+.hidden{
+    display:none;
+}
+#showInstructions{
+    cursor:pointer;
+}

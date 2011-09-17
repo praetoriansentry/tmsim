@@ -39,6 +39,7 @@ if(!tm){
         $('#startButton').click(m.startRunning);
         $('#stopButton').click(m.stopRunning);
         $('#resetButton').click(m.reset);
+        $('#showInstructions').click(m.toggleInstructions);
     };
     /**
      * Handler for when the user want to load symbols onto the tape
@@ -59,6 +60,20 @@ if(!tm){
      */
     m.countCells = function(){
         return $('#tickerTape div').length;
+    };
+    /**
+     * Small function to show/hide the instructions
+     */
+    m.toggleInstructions = function(){
+        var ins = $('#instructions');
+        if(ins.hasClass('hidden')){
+            $('#showInstructions').text('Hide Instructions');
+            ins.removeClass('hidden');
+        }else{
+            $('#showInstructions').text('Show Instructions');
+            ins.addClass('hidden');
+        }
+
     };
     /**
      * This function will walk forward and backwards up the linked list of 

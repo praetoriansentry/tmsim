@@ -14,8 +14,11 @@
 </head>
 <body>
 <div class="container">
-    <div class="span-24">
-        <div id="curState">
+    <div class="span-24 append-bottom">
+        <label for="curState" title="Click the State to Edit it">
+            Current state:
+        </label>
+        <div id="curState" title="Click To Edit The State">
             N
         </div>
     </div>
@@ -76,6 +79,43 @@
             <br>
             <input type="text" id="initialSymbols">
             <button id="loadSymbols">Load Symbols</button>
+            <br><a id="showInstructions">Show Instructions</a>
+            <div id="instructions" class="hidden">
+                Instructions for using the TM Simulator:
+                <ol>
+                    <li>
+                        Load your instruction set. Each instruction should look
+                        like: {A,B}-&gt;{C,D,E}
+                        <dl>
+                            <dt>A</dt>
+                            <dd>The current state</dd>
+                            <dt>B</dt>
+                            <dd>The current symbol on the tape</dd>
+                            <dt>C</dt>
+                            <dd>The new state to move to</dd>
+                            <dt>D</dt>
+                            <dd>The symbol to write on the tape</dd>
+                            <dt>E</dt>
+                            <dd>The Direction to move the tape either. Must be R or L</dd>
+                        </dl>
+                        Every state, symbol, or direction should be just one character.
+                        Use the state H for the halting state. Use an underscore
+                        _ for a blank symbol on the tape.
+                    </li>
+                    <li>
+                        Set the intial symobls on tape and move the tape to the
+                        correct position.
+                    </li>
+                    <li>
+                        Click the current state at the top of the page and set
+                        it to the state you want to start with.
+                    </li>
+                    <li>
+                        Press start.  If the touring machine halts, it will
+                        stop with state H.
+                    </li>
+                </ol>
+            </div>
         </div>
     </div>
 </div>
