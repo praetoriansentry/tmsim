@@ -13,7 +13,7 @@ if(!tm){
     tm.manager = {};
     var m = tm.manager;
     var inMotion = false;// flag to prevent running animations at the same time
-    m.transitionSpeed = 1000;
+    m.transitionSpeed = 10000;
     m.state = 'N';
     m.isRunning = false;
     m.runHandle = null;
@@ -32,10 +32,10 @@ if(!tm){
      */
     m.attachListeners = function(){
         $('#loadSymbols').click(m.loadSymbols);
-        $('#goBackward').click(m.moveLeft);
-        $('#goForward').click(m.moveRight);
         $('#goBackward').click(m.updateTransitionSpeed);
         $('#goForward').click(m.updateTransitionSpeed);
+        $('#goBackward').click(m.moveLeft);
+        $('#goForward').click(m.moveRight);
         $('#curState').click(m.editState);
         $('#loadInstructions').click(m.loadInstructions);
         $('#startButton').click(m.startRunning);
@@ -50,7 +50,7 @@ if(!tm){
      */
     m.updateTransitionSpeed = function(){
         if($('#transpeed').val().match('^(0|[1-9][0-9]*)$')){
-            m.transitionSpeed = $('#transpeed').val();
+            m.transitionSpeed = parseInt($('#transpeed').val(), 10);
         }else{
             m.transitionSpeed = 1000; // Default to 1000
         }
