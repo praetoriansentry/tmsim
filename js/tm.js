@@ -1,4 +1,4 @@
-var tm,$,document,window;
+var tm,$;
 if(!tm){
     tm = {};
 }
