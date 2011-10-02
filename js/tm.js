@@ -13,7 +13,7 @@ if(!tm){
     tm.manager = {};
     var m = tm.manager;
     var inMotion = false;// flag to prevent running animations at the same time
-    m.transitionSpeed = 10000;
+    m.transitionSpeed = 1000;
     m.state = 'N';
     m.isRunning = false;
     m.runHandle = null;
@@ -43,6 +43,24 @@ if(!tm){
         $('#stopButton').click(m.stopRunning);
         $('#resetButton').click(m.reset);
         $('#showInstructions').click(m.toggleInstructions);
+        $('#runDemo').click(m.runDemo);
+    };
+    /**
+     * This is a small function to run a demo for a user to see how the turing
+     * machine works
+     */
+    m.runDemo = function(){
+        m.stopRunning();
+        m.reset();
+        var instructions = "{1,_}->{1,_,R}\n{1,1}->{1,1,R}\n{1,-}->{1,-,R}\n{1,=}->{2,_,L}\n{2,1}->{3,=,L}\n{2,-}->{H,_,L}\n{3,1}->{3,1,L}\n{3,-}->{4,-,L}\n{4,_}->{4,_,L}\n{4,1}->{1,_,R}";
+        var symbols = '1111-111=';
+        $('#tmInstructions').text(instructions);
+        m.loadInstructions();
+        $('#initialSymbols').val(symbols);
+        m.loadSymbols();
+        m.state = 1;
+        $('#curState').text(1);
+        m.startRunning();
     };
     /**
      * Small function to update the transtion speed.  This should be called
