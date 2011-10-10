@@ -60,7 +60,6 @@ if(!tm){
         $('#initialSymbols').val(symbols);
         m.loadSymbols();
         m.state = 1;
-        $('#curState').text(1);
         m.startRunning();
     };
     /**
@@ -194,13 +193,15 @@ if(!tm){
         var input = $(document.createElement('input'));
         input.attr('type','text');
         input.val(m.state);
+        input.addClass('quickEdit');
         function saveState(){
             // todo maybe check to see that the state is 1 character
             var state = input.val();
             m.state = state;
-            // take it out of the dom
             input.remove();
-            $('#curState').text(state);
+            $('#currentState').text(state);
+            // take it out of the dom
+            // $('#curState').text('Edit State');
         }
         input.blur(saveState);
         input.keypress(function(evt){
@@ -208,7 +209,7 @@ if(!tm){
                 saveState();
             }
         });
-        $('#curState').html(input);
+        $('#currentState').html(input);
         input.focus();
     };
     /**
@@ -253,7 +254,6 @@ if(!tm){
     m.reset = function(){
         m.tape = new tm.Tape();
         m.state = 'N';
-        $('#curState').text('N');
         m.draw();
     };
     /**
@@ -338,7 +338,6 @@ if(!tm){
     m.performAction = function(action){
         m.state = action.newState;
         console.log(action);
-        $('#curState').text(m.state);
         $('#currentState').text(action.currentState);
         $('#currentSymbol').text(action.currentSymbol);
         $('#nextState').text(action.newState);

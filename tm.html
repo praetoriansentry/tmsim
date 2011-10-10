@@ -14,22 +14,23 @@
 </head>
 <body>
 <div class="container">
-    <div class="symbolIndicator prepend-8 span-16 prepend-top last append-bottom center">
-        {
-        <span id="currentState">A</span>,
-        <span id="currentSymbol">B</span> &rarr;
-        <span id="nextState">C</span>,
-        <span id="nextSymbol">D</span>,
-        <span id="nextDirection">E</span>
-        }
+    <div class="prepend-8 span-16 prepend-top last append-bottom center">
+        <div class="symbolIndicator">
+            {
+            <span id="currentState">A</span>,
+            <span id="currentSymbol">B</span> &rarr;
+            <span id="nextState">C</span>,
+            <span id="nextSymbol">D</span>,
+            <span id="nextDirection">E</span>
+            }
+        </div>
+        <div>
+            <a id="curState"  class="small" title="Click To Edit The State">
+                Edit State
+            </a>
+        </div>
     </div>
     <div class="span-24 append-bottom">
-        <label for="curState" title="Click the State to Edit it">
-            Current state:
-        </label>
-        <div id="curState" title="Click To Edit The State">
-            N
-        </div>
     </div>
     <div class="span-24 tickerTapeContain">
         <div id="tickerTape" class="clearfix">
