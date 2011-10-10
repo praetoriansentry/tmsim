@@ -30,7 +30,16 @@
             </a>
         </div>
     </div>
-    <div class="span-24 append-bottom">
+    <div class="span-2">
+        <img id="goBackward" src="img/left.png" title="Move Left">
+    </div>
+    <div class="prepend-7 span-6">
+        <img id="startButton" src="img/play.png" title="Start">
+        <img id="stopButton" src="img/pause.png" title="Stop">
+        <img id="resetButton" src="img/power.png" title="Reset">
+    </div>
+    <div class="prepend-7 span-2 last">
+        <img id="goForward" src="img/right.png" title="Move Right">
     </div>
     <div class="span-24 tickerTapeContain">
         <div id="tickerTape" class="clearfix">
@@ -66,12 +75,6 @@
         <div id="headHighlight"></div>
     </div>
 
-    <div class="span-2">
-        <button id="goBackward">&lt;&lt;</button>
-    </div>
-    <div class="prepend-20 span-2 last">
-        <button id="goForward">&gt;&gt;</button>
-    </div>
 
     <div class="span-24">
         <div class="span-8">
@@ -81,9 +84,6 @@
             <textarea id="tmInstructions" cols="35"></textarea>
         </div>
         <div class="prepend-1 span-15 last">
-            <button id="startButton">Start</button>
-            <button id="stopButton">Stop</button>
-            <button id="resetButton">Reset</button>
             <br>
             <label for="transpeed">Transition Speed (in ms)</label>
             <input type="text" id="transpeed" value="1000">
