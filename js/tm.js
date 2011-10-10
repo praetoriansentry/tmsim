@@ -1,3 +1,4 @@
+/*jslint regexp: true, browser: true, vars: true, white: true, maxerr: 50, indent: 4 */
 var tm,$;
 if(!tm){
     tm = {};
@@ -81,7 +82,7 @@ if(!tm){
         var len = symbols.length;
         var head = m.tape.getHead();
         var i;
-        for(i = 0; i < len; i++){
+        for(i = 0; i < len; i = i + 1){
             head.setSymbol(symbols[i]);
             head = head.getNext();
         }
@@ -230,7 +231,7 @@ if(!tm){
         var actionMap = {};
         var len = actions.length;
         var i,action,key;
-        for(i = 0;i<len;i++){ // reindex the actions;
+        for(i = 0;i<len; i = i + 1){ // reindex the actions;
             action = actions[i];
             key = m.makeKey(action.getCurrentState(),action.getCurrentSymbol());
             actionMap[key] = action;
@@ -355,6 +356,7 @@ if(!tm){
  * user.  Rather than using alerts, I would rather use this
  */
 (function(){
+    "use strict";
     tm.notify = function(msg,color){
         var div = $(document.createElement('div'));
         div.attr('class','notification');
@@ -369,7 +371,14 @@ if(!tm){
         });
         $(document.body).append(div);
         div.slideDown("slow");
-        setTimeout(function() { div.slideUp('fast',function(){div.remove()}) }, 3000);
+        setTimeout(
+            function(){
+                div.slideUp('fast',
+                    function(){
+                        div.remove();
+                    }
+                );
+            }, 3000);
     };
 }());
 /**
