@@ -69,6 +69,7 @@ label[for=curState] {
 }
 .tapeCell{
     line-height:40px;
+    font-size:150%;
 }
 .symbolIndicator{
     font-size:300%;
