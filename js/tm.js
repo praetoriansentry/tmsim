@@ -64,6 +64,14 @@ if(!tm){
         m.startRunning();
     };
     /**
+     * Whatever action is passed in, highlight it
+     */
+    m.highlightRule = function(action){
+        var tBox = $('#tmInstructions')[0];
+        var dist = action.idx * 15;
+        tBox.setSelectionRange(dist, dist+14);
+    };
+    /**
      * Small function to update the transtion speed.  This should be called
      * before starting a new run.
      */
@@ -217,7 +225,7 @@ if(!tm){
                 return true;
             });
         var re = /\{(.),(.)\}->\{(.),(.),([LRN])\}/;
-        var actions = instructs.map(function(ele){
+        var actions = instructs.map(function(ele,idx){
             // Remove spaces
             ele = ele.replace(" ","","g");
             if(!re.test(ele)){
@@ -226,7 +234,7 @@ if(!tm){
             }
             var pieces = ele.match(re);
             return new tm.Action(pieces[1],pieces[2],pieces[3],
-                pieces[4],pieces[5]);
+                pieces[4],pieces[5],idx);
         });
         var actionMap = {};
         var len = actions.length;
@@ -329,7 +337,14 @@ if(!tm){
      */
     m.performAction = function(action){
         m.state = action.newState;
+        console.log(action);
         $('#curState').text(m.state);
+        $('#currentState').text(action.currentState);
+        $('#currentSymbol').text(action.currentSymbol);
+        $('#nextState').text(action.newState);
+        $('#nextSymbol').text(action.newSymbol);
+        $('#nextDirection').text(action.movement);
+        m.highlightRule(action);
         m.tape.head.setSymbol(action.newSymbol);
         m.draw();
         if(action.movement === tm.Action.MOVE_LEFT){
@@ -492,13 +507,14 @@ tm.BLANK_SYMBOL = '_';
  */
 (function(){
     "use strict";
-    function Action(currentState, currentSymbol, 
-            newState, newSymbol, movement){
+    function Action(currentState, currentSymbol,newState, newSymbol, movement,
+            idx){
         this.currentState = currentState;
         this.currentSymbol = currentSymbol;
         this.newState = newState;
         this.newSymbol = newSymbol;
         this.movement = movement;
+        this.idx = idx;
     }
     Action.MOVE_LEFT = 'L';
     Action.MOVE_RIGHT = 'R';
