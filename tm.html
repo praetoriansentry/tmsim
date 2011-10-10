@@ -13,6 +13,9 @@
 <script type="text/javascript" src="js/tm.js"></script>
 </head>
 <body>
+<div class="topHeader">
+    <em>JavaScript Turing Machine Simulator</em>
+</div>
 <div class="container">
     <div class="prepend-8 span-16 prepend-top last append-bottom center">
         <div class="symbolIndicator">
@@ -76,23 +79,12 @@
     </div>
 
 
-    <div class="span-24">
+    <div class="span-24 prepend-top">
         <div class="span-8">
             <label for="tmInstructions">Instructions</label>
-            <button id="loadInstructions">Load Instructions</button>
+            <a id="loadInstructions">Load Instructions</a>
             <br>
             <textarea id="tmInstructions" cols="35"></textarea>
-        </div>
-        <div class="prepend-1 span-15 last">
-            <br>
-            <label for="transpeed">Transition Speed (in ms)</label>
-            <input type="text" id="transpeed" value="1000">
-            <br>
-            <label for="initialSymbols">Starting Tape Symbols</label>
-            <br>
-            <input type="text" id="initialSymbols">
-            <button id="loadSymbols">Load Symbols</button>
-            <br>
             <br><a id="showInstructions">Show Instructions</a>
             <div id="instructions" class="hidden">
                 Instructions for using the TM Simulator:
@@ -132,6 +124,23 @@
                 If you'd like to see the simulator in action try running the
                 demo.<br>
                 <button id="runDemo">Run Demo</button>
+            </div>
+        </div>
+        <div class="prepend-1 span-15 last">
+            <div class="span-5">
+                <label for="transpeed">Transition Speed (in ms)</label>
+            </div>
+            <div class="span-10 last">
+                <input type="text" id="transpeed" value="1000">
+            </div>
+            <div class="span-5">
+                <label for="initialSymbols">Starting Tape Symbols</label>
+            </div>
+            <div class="span-10 last">
+                <input type="text" id="initialSymbols"><br>
+            </div>
+            <div>
+                <a id="loadSymbols">Load Symbols</a>
             </div>
         </div>
     </div>

@@ -1,3 +1,7 @@
+body{
+    font-family: Corbel, "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", "DejaVu Sans", "Bitstream Vera Sans", "Liberation Sans", Verdana, "Verdana Ref", sans-serif;
+    background-color:#F7F6EE;
+}
 #tickerTape {
     height:50px;
     position:relative;
@@ -64,6 +68,7 @@ label[for=curState] {
     cursor:pointer;
 }
 .tapeCell{
+    line-height:40px;
 }
 .symbolIndicator{
     font-size:300%;
@@ -76,4 +81,13 @@ label[for=curState] {
 .quickEdit {
     width:22px;
     height:22px;
+}
+.topHeader {
+    text-align:center;
+    background-color:#C1523C;
+    color:#F7F6EE;
+    font-size:140%;
+}
+a {
+    cursor:pointer;
 }
